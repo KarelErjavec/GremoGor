@@ -1,0 +1,23 @@
+.left{
+    background-color: red;
+    height: 60; 
+    width: 25px; 
+}
+.right{
+    background-color: aqua;
+    height: 25px; 
+    width: 25px; 
+}
+
+.register{
+    background-color:rgb(236, 234, 234);
+    height:5000px;
+    width:60%;
+}
+body{
+    width: 1000px;
+    height: fit-content;
+    margin: 0 auto;
+    padding: 0%;
+    background-color: white;
+}
