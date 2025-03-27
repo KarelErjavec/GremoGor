@@ -1,0 +1,33 @@
+/*Header*/
+.header li {
+    display: inline;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    background: lightgray;
+}
+
+.header a {
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+}
+.header label {
+    margin-right: auto;
+}
+
+/*stran*/
+.gore {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.gore div {
+    background: gray;¸
+    margin: 5%;
+    width: 20%;
+}
