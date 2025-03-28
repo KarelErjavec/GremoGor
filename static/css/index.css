@@ -1,4 +1,4 @@
-/*Header*/
+/*glava*/
 .header li {
     display: inline;
     padding: 20px;
@@ -13,21 +13,55 @@
 
 .header a {
     text-decoration: none;
-    color: black;
+    color: gray;
     font-size: 25px;
 }
+
+a:hover {
+    color: black;
+}
+
 .header label {
     margin-right: auto;
 }
 
 /*stran*/
-.gore {
+div {
+    background: gray;
+    margin-bottom: 20px;
+}
+/*SELEKTOR - gore, prijatelji, itd*/
+.selector {
     display: grid;
     grid-template-columns: auto auto auto;
 }
 
-.gore div {
-    background: gray;¸
-    margin: 5%;
-    width: 20%;
+.selector a {
+    text-decoration: none;
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+.selector a:hover {
+    color: black;
+}
+
+.selector > div {
+    margin-bottom: 1px;
+}
+
+.selector a {
+    text-decoration: none;
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+/* /SELEKTOR */
+
+.obvestilo {
+    color: white;
+    text-align: center;
+    font-size: large;
+    padding: 5px;
 }
