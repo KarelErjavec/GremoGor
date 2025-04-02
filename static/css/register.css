@@ -1,22 +1,24 @@
 .left{
-    background-color: rgb(238, 234, 234);
+    background-color: rgb(73, 104, 75);
     height: 100vh; 
-    width: 50%; 
+    width:  50%; 
     display: flex;
     justify-content: start;
-    align-items: baseline;
+    align-items: flex;
     display: block;
     padding: 20px;
-    padding-top: 100px 
-    
-    
-
+    padding-top: 100px ;
 }
+
 .left input{
+    
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
+    align-items:start; 
 
+}
+#password{
+    width: 90%;
 }
 #email {
     width: 90%;
@@ -25,11 +27,14 @@
     display: flex;
 }
 .imepriimek div {
-    margin-right: 20px;
+    margin-right: 1px;
+}
+.registracija-login{
+    display: flex;
 }
 
 .right{
-    background-color: aqua;
+    background-color: rgb(180, 188, 147);
     height: 100vh; 
     width: 50%; 
 
@@ -49,7 +54,15 @@ body{
     margin: 0 auto;
     padding: 0%;
     background-color: white;
+    
+    color: white;
 }
-
+img{
+   position: absolute;
+   justify-content: center;
+   top:40%;
+   bottom:60%;
+   left:54%
+}
 
  
