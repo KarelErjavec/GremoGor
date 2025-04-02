@@ -18,6 +18,9 @@
     align-items: flex-start; 
 
 }
+#password{
+    width: 90%;
+}
 #email {
     width: 90%;
 }
