@@ -23,17 +23,10 @@
 #email {
     width: 90%;
 }
-.imepriimek {
-    display: flex;
-}
-.imepriimek div {
-    margin-right: 1px;
-}
+
+
 .registracija-login{
     display: flex;
-}
-.registracija-login div{
-    margin-right: 3px;
 }
 
 .right{
