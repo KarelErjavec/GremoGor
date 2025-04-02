@@ -1,0 +1,17 @@
+body{
+    height: fit-content;
+    margin: 0 auto;
+    padding: 0%;
+    background-color: white;
+}
+/*razdelitev*/
+.container {
+    display: flex;
+    background-color: gray
+  }
+  
+  .left, .right {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
