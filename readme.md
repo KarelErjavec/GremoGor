@@ -17,7 +17,7 @@ GremoGor (Socialnoo omrežje pohodnikov v gore) bi bila platforma, kjer uporabni
 **Potrebe in izzivi pohodnikov:**
 - **Motivacija in povezovanje:** Mnogi pohodniki si želijo deliti svoje dosežke, vendar niso prepričani, katera platforma je najbolj primerna za to. Obstajajo splošna socialna omrežja, vendar ta niso specifično prilagojena za ljubitelje gora.
 - **Manjka specializiranih platform:** Obstoječi socialni mediji niso optimizirani za ljubitelje narave, pohodništva in gora, zato bi bila potrebna specializirana platforma.
-- **Pomanjkanje informacij o poteh:** Pohodniki pogosto iščejo priporočila za poti, vremenske razmere, opremo in nasvete drugih pohodnikov, vendar ni vedno enostavno najti zaupanja vrednih informacij.
+- **Pomanjkanje informacij o poteh:** Pohodniki pogosto iščejo priporočila za poti, vremenske razmere, opremo in nasvete drugih pohodnikov, vendar ni vedno enostavno najti zaupanja vrednih informacij. 
 
 ## 3. Analiza trga
 

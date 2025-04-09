@@ -9,7 +9,7 @@ users = []
 def index():
     return 'Dobrodošli na spletni strani!'
 
-@app.route('/Register', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         
