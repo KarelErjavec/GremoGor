@@ -44,7 +44,7 @@ GremoGor (Socialnoo omrežje pohodnikov v gore) bi bila platforma, kjer uporabni
 **Monetizacija:**
 - **Oglaševanje:** Oglaševalci, povezani z industrijo pohodništva in opreme (npr. proizvajalci pohodniške obutve, oblačil, opreme).
 - **Partnerski programi:** Partnerstva s trgovinami in blagovnimi znamkami za posebne popuste in promocije za uporabnike.
-- **Premium različica:** Dodatne funkcije z doplačilom (Morda )
+- **Premium različica:** Dodatne funkcije z doplačilom (Morda)
 
 ## Zaključek
 Razvoj socialnega omrežja za pohodnike v gore predstavlja priložnost za ustvarjanje specializirane platforme, ki bi izpolnila vrzel med obstoječimi aplikacijami, ki so večinoma osredotočene na navigacijo, in potrebami uporabnikov, ki želijo več socialne interakcije, skupnostnega duha ter dostop do zaupanja vrednih informacij o pohodništvu.
