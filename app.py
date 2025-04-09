@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def domov():
-    return render_template('index.html', prijava=True)
+    return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
