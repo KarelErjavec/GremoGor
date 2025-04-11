@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import requests
-app = Flask(__name__)
 
 #tinydb
 from tinydb import TinyDB, Query
@@ -30,7 +29,8 @@ def register():
         if any(user['username'] == username for user in users):
             return 'Uporabniško ime je že v uporabi!'
 
-        
+        print(ime)
+
         users.insert({
             'ime': ime,
             'priimek': priimek,
@@ -40,7 +40,7 @@ def register():
         })
         
         
-        return redirect(url_for('index'))
+        return redirect(url_for('domov'))
     
     
     return render_template('register.html')
