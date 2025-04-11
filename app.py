@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import requests
 
 #tinydb
@@ -19,11 +19,11 @@ def domov():
 def register():
     if request.method == 'POST':
         
-        ime = request.form.get("ime")
-        priimek = request.form.get('priimek')
-        email = request.form.get('email')
-        username = request.form.get('username')
-        password = request.form.get('password')
+        ime = request.form("ime")
+        priimek = request.form('priimek')
+        email = request.form('email')
+        username = request.form('username')
+        password = request.form('password')
         
         
         if any(user['username'] == username for user in users):
@@ -38,6 +38,12 @@ def register():
             'username': username,
             'password': password  # Nikoli ne shranjuj gesel v plaintextu! (uporabi hashiranje gesel)
         })
+
+        session["ime"] = ime
+        session["priimek"] = priimek
+        session["email"] = email
+        session["username"] = username
+        session["password"] = password
         
         
         return redirect(url_for('domov'))

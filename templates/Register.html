@@ -7,56 +7,44 @@
     <link rel="stylesheet" href="../static/css/register.css">
 </head>
 <body>
-    
     <div class="register">
-            <div class="left">
-                <h1>Registracija:</h1>
-                <from method="Post">
+        <div class="left">
+            <h1>Registracija:</h1>
+            <!-- Fix the form tag with method="POST" and action to your Flask route -->
+            <form method="POST" action="/register">
                 <div class="imepriimek">
-                    <div>Ime: <input type="text" placeholder="Peter"></div>
-                    <div>Priimek: <input type="text" placeholder="Planinec"></div>
+                    <div>Ime: <input type="text" name="ime" placeholder="Peter" required></div>
+                    <div>Priimek: <input type="text" name="priimek" placeholder="Planinec" required></div>
                 </div>
 
                 <div>
-                    Email: <input id="email" type="text" placeholder="Planinec-Peter@gmail.com">
+                    Email: <input id="email" name="email" type="email" placeholder="Planinec-Peter@gmail.com" required>
                 </div>  
 
                 <div>
-                    Uporabniško ime: <input id="email"type="text" placeholder="Peter123">
+                    Uporabniško ime: <input id="username" name="username" type="text" placeholder="Peter123" required>
                 </div>
                 
                 <div>
-                    Geslo: <input id=password type="password" placeholder="*********">
+                    Geslo: <input id="password" name="password" type="password" placeholder="*********" required>
                 </div>
                 <br>
-                
-
-                <div class =registracija-login>
+                <div class="registracija-login">
                     <div>
-                       <input type="button" value="Registriraj">
-                    </div>
-                </form>
-                    Sem že registriran -
-                    <div>
-                        <a href="../templates/Login.html"><input type="button" value="Prijava"></a>
+                       <input type="submit" value="Registriraj">
                     </div>
                 </div>
-
-                
-                    
-                    
-                    
+            </form>
+            <div>
+                Sem že registriran - 
+                <a href="../templates/Login.html"><input type="button" value="Prijava"></a>
             </div>
-            
-    <div class="right">
-        <!-- slika(logo) -->
-        <img src="../static/logo.png" alt="logo">
+        </div>
+
+        <div class="right">
+            <!-- slika(logo) -->
+            <img src="../static/logo.png" alt="logo">
+        </div>
     </div>
-        
-            
-
-
-    </div>
-
 </body>
 </html>
