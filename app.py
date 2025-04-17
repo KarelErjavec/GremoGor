@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import requests
 
 #tinydb
@@ -10,6 +10,7 @@ rapidapi_key = "6948397d3fmsh016ac5964e79765p1f044djsn300adf413fe5"
 rapidapi_host = "mountain-api1.p.rapidapi.com"
 
 app = Flask(__name__)
+app.secret_key = "temp"
 
 @app.route('/')
 def domov():
@@ -19,11 +20,11 @@ def domov():
 def register():
     if request.method == 'POST':
         
-        ime = request.form("ime")
-        priimek = request.form('priimek')
-        email = request.form('email')
-        username = request.form('username')
-        password = request.form('password')
+        ime = request.form["ime"]
+        priimek = request.form['priimek']
+        email = request.form['email']
+        username = request.form['username']
+        password = request.form['password']
         
         
         if any(user['username'] == username for user in users):
@@ -43,7 +44,7 @@ def register():
         session["priimek"] = priimek
         session["email"] = email
         session["username"] = username
-        session["password"] = password
+        #session["password"] = password
         
         
         return redirect(url_for('domov'))
