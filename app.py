@@ -51,7 +51,30 @@ def register():
     
     
     return render_template('register.html')
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        #print(request.form["geslo"], request.form["email"])
+        #return jsonify({'success': True})
 
+        email = request.form['email']
+        password = request.form['geslo']
+        User = Query()
+        user = users.get(User.email == email)
+        print(email,password)
+        if user:
+            if user['password'] == password:
+                session['email'] = email
+                return redirect(url_for('domov'))
+            else:
+                return jsonify({'success': False, 'error': 'Napačno geslo'})
+        else:
+            return jsonify({'success': False, 'error': 'Uporabnik ne obstaja'})
+                
+        
+        
+    return render_template('login.html')
+   
 def gore_data():
     global rapidapi_key
     global rapidapi_host

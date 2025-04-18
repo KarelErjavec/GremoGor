@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../static/css/register.css">
 </head>
 <body>
-    
+        <form method="POST" action="/login">
     <div class="register">
             <div class="left">
                 <h1>Prijava:</h1>
@@ -16,24 +16,26 @@
                   
 
                 <div>
-                    Uporabniško ime/Email: <input id="email"type="text" placeholder="Peter123">
+                    Email: <input id="email" name="email" type="text" placeholder="Peter123">
                 </div>
-                
+                <div>
+                    Geslo:<input id="Geslo" name="geslo" type="password" placeholder="*************">
+                </div>
                 
                 <br>
                 
 
                     <div>
-                        <input type="button" value="Prijava">
+                        <input type="submit" value="Prijava">
                     </div>
                 
-
+                    
                 
                     
                     
                     
             </div>
-            
+        </form>       
     <div class="right">
         <!-- slika(logo) -->
         <img src="../static/logo.png" alt="logo">
