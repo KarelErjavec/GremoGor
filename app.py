@@ -14,7 +14,10 @@ app.secret_key = "temp"
 
 @app.route('/')
 def domov():
-    return render_template('index.html')
+    user=session.get('username')
+    if not user:
+        user="none"
+    return render_template('index.html', user=user)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -58,18 +61,22 @@ def login():
         #return jsonify({'success': True})
 
         email = request.form['email']
-        password = request.form['geslo']
+        password = request.form['password']
         User = Query()
         user = users.get(User.email == email)
-        print(email,password)
+        #print(email,password)
         if user:
             if user['password'] == password:
                 session['email'] = email
+                session['username'] = users['username']
+                session['ime'] = users['ime']
+                ession['priimek'] = users['priimek']
                 return redirect(url_for('domov'))
             else:
                 return jsonify({'success': False, 'error': 'Napačno geslo'})
         else:
             return jsonify({'success': False, 'error': 'Uporabnik ne obstaja'})
+
                 
         
         
