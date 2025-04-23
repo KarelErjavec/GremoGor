@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GremoGor</title>
-    <!-- <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> naredi favicon -->
     <link rel="stylesheet" href="../static/css/index.css">
 </head>
 <body>
@@ -16,30 +15,29 @@
             <li><a href="#">Regije</a></li>
             <li><a href="#">Celine</a></li>
             <li><a href="#">Države</a></li>
-            <li><a href="#">{{user}}</a></li>
+            {% if user == "none" %}
+                <li><a href="/register">Register</a></li>
+                <li><a href="/login">Login</a></li>
+            {% else %}
+                <li><a href="/profile">{{user}}</a></li>
+                <li><a href="/logout">Logout</a></li>
+            {% endif %}
         </ol>
     </div>
-    <div class="selector"> <!--spremeni med izdelavo programa + odstrani class če ni prijave-->
-        <div><a href=#><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime Gore*</a></div>
-        <div><a href=#><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime Gore*</a></div>
-        <div><a href=#><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime Gore*</a></div>
-    </div>
-    <!--{if prijava%} <!--dokončaj-->
-    <div class="selector"> <!--spremeni po dodajanju prijave-->
-        <!--neprijavljen + odstrani class če ni prijave-->
-        <!--<p class="obvestilo">Za uporabo funkcije prijatelji se prijavite</p>-->
-        <!--prijavljen-->
-        <div><a href=#><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime prijatelja*</a></div>
-        <div><a href=#><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime prijatelja*</a></div>
-        <div><a href=#><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime prijatelja*</a></div>
-    </div>
-
     <div class="selector">
-        <!--neprijavljen + odstrani class če ni prijave-->
-        <!--<p class="obvestilo">Za prikaz in dodajanje dosežkov se prijavite</p>-->
-        <div><a href=#><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime dosežene gore*</a></div>
-        <div><a href=#><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime dosežene gore*</a></div>
-        <div><a href=#><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime dosežene gore*</a></div>
+        <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime Gore*</a></div>
+        <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime Gore*</a></div>
+        <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime Gore*</a></div>
+    </div>
+    <div class="selector">
+        <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime prijatelja*</a></div>
+        <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime prijatelja*</a></div>
+        <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime prijatelja*</a></div>
+    </div>
+    <div class="selector">
+        <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime dosežene gore*</a></div>
+        <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime dosežene gore*</a></div>
+        <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime dosežene gore*</a></div>
     </div>
 </body>
 </html>

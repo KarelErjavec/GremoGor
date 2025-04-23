@@ -7,44 +7,30 @@
     <link rel="stylesheet" href="../static/css/register.css">
 </head>
 <body>
-        <form method="POST" action="/login">
     <div class="register">
-            <div class="left">
-                <h1>Prijava:</h1>
-                
-
-                  
-
+        <div class="left">
+            <h1>Prijava:</h1>
+            <form method="POST" action="{{ url_for('login') }}">
                 <div>
-                    Email: <input id="email" name="email" type="text" placeholder="Peter123">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
                 </div>
                 <div>
-                    Geslo:<input id="Geslo" name="geslo" type="password" placeholder="*************">
+                    <label for="password">Geslo:</label>
+                    <input type="password" id="password" name="password" required>
                 </div>
-                
                 <br>
-                
-
-                    <div>
-                        <input type="submit" value="Prijava">
-                    </div>
-                
-                    
-                
-                    
-                    
-                    
+                <div>
+                    <input type="submit" value="Prijava">
+                </div>
+            </form>
+            <div>
+                <a href="{{ url_for('register') }}">Registracija</a>
             </div>
-        </form>       
-    <div class="right">
-        <!-- slika(logo) -->
-        <img src="../static/logo.png" alt="logo">
+        </div>
+        <div class="right">
+            <img src="../static/logo.png" alt="logo">
+        </div>
     </div>
-        
-            
-
-
-    </div>
-
 </body>
 </html>

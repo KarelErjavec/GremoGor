@@ -12,6 +12,8 @@ rapidapi_host = "mountain-api1.p.rapidapi.com"
 app = Flask(__name__)
 app.secret_key = "temp"
 
+User = Query()
+
 @app.route('/')
 def domov():
     user=session.get('username')
@@ -40,7 +42,7 @@ def register():
             'priimek': priimek,
             'email': email,
             'username': username,
-            'password': password  # Nikoli ne shranjuj gesel v plaintextu! (uporabi hashiranje gesel)
+            'password': password #hash(data) Funkcija  # Nikoli ne shranjuj gesel v plaintextu! (uporabi hashiranje gesel)
         })
 
         session["ime"] = ime
@@ -57,29 +59,33 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        #print(request.form["geslo"], request.form["email"])
-        #return jsonify({'success': True})
-
+     
+        print("Form data:", request.form)
+        
+       
+        if 'email' not in request.form or 'password' not in request.form:
+            return 'Manjkajoči podatki v obrazcu: potrebna sta email in geslo'
+            
         email = request.form['email']
         password = request.form['password']
-        User = Query()
+        
+        
+        if not email or not password:
+            return 'Email in geslo sta obvezna'
+            
+       
         user = users.get(User.email == email)
-        #print(email,password)
-        if user:
-            if user['password'] == password:
-                session['email'] = email
-                session['username'] = users['username']
-                session['ime'] = users['ime']
-                ession['priimek'] = users['priimek']
-                return redirect(url_for('domov'))
-            else:
-                return jsonify({'success': False, 'error': 'Napačno geslo'})
+        
+        if user and user['password'] == password:
+           
+            session['email'] = email
+            session['username'] = user['username']
+            session['ime'] = user['ime']
+            session['priimek'] = user['priimek']
+            return redirect(url_for('domov'))
         else:
-            return jsonify({'success': False, 'error': 'Uporabnik ne obstaja'})
-
-                
-        
-        
+            return 'Napačen email ali geslo'
+    
     return render_template('login.html')
    
 def gore_data():
@@ -98,6 +104,11 @@ def gore_data():
     response = requests.get(url, headers=headers, params=querystring)
 
     return response.json()
+
+@app.route('/check_users')
+def check_users():
+    all_users = users.all()
+    return jsonify(all_users)
 
 if __name__ == '__main__':
     app.run(debug=True)
