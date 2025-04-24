@@ -87,7 +87,18 @@ def login():
             return 'Napačen email ali geslo'
     
     return render_template('login.html')
-   
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('domov'))
+
+@app.route('/profile',methods=['GET', 'POST'])
+def profile():
+    return render_template('Userpage.html')
+    
+    
+
 def gore_data():
     global rapidapi_key
     global rapidapi_host
