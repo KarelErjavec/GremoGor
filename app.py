@@ -96,10 +96,15 @@ def logout():
 @app.route('/profile',methods=['GET', 'POST'])
 def profile():
     return render_template('Userpage.html')
-    
+
+@app.route('/set/profile', methods=['GET','POST'])
+def setprof():
+    if request.method == 'GET':
+        return render_template('settings/profile.html', ime=session.get('ime'), priimek=session.get('priimek'), email=session.get('email'))
+
     
 
-def gore_data():
+def gore_data(): #morda potrebna zamenjava
     global rapidapi_key
     global rapidapi_host
 

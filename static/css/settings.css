@@ -1,0 +1,72 @@
+.left{
+    background-color: rgb(180, 188, 147);
+    height: 100vh; 
+    width:  50%; 
+    display: flex;
+    justify-content: start;
+    align-items: flex;
+    display: block;
+    padding: 20px;
+    padding-top: 100px ;
+}
+
+.left input{
+    
+    display: flex;
+    flex-direction: column;
+    align-items:start; 
+
+}
+
+.registracija-login{
+    display: flex;
+}
+
+.right{
+    background-color: rgb(73, 104, 75);
+    height: 100vh; 
+    width: 50%; 
+
+   
+}
+
+.register{
+    background-color:rgb(255, 255, 255);
+    height:100vh;
+    width:100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+body{
+    height: fit-content;
+    margin: 0 auto;
+    padding: 0%;
+    background-color: white;
+    
+    color: white;
+}
+img{
+    margin-top: 1vh;
+    margin-left: 1vh;
+    width: 30vh;
+    height: 25vh;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a {
+    list-style-type: none;
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+    width: 100%;
+    text-align: center;
+}
+
+a:hover {
+    color: black;
+}
+ 

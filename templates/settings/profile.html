@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/settings.css">
+    <title>Profil</title>
+</head>
+<body>
+    <div class="register">
+        
+        <div class="left">
+           <ul class="selector">
+                <li><a href="set/profile/">Profil</a></li>
+                <li><a href="set/privacy/">Zasebnost</a></li>
+                <li><a href="set/del/">Izbris računa</a></li>
+            </ul>        
+        </div>
+        
+        <div class="right">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/1200px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg">
+            <br>
+            <div>
+            <form method="POST" action="set/profile">
+                <p>Ime: <input type="text" name="ime" placeholder="{{ime}}"></p>
+                <p>Priimek: <input type="text" name="priimek" placeholder="{{priimek}}"></p>
+                <br>
+                <p>E-pošta: <input id="email" name="email" type="email" placeholder="{{email}}"></p>
+                <br>
+                <p>Uporabniško ime: <input id="username" name="username" type="text" placeholder="{{username}}"></p>
+                <br>
+                <p>Geslo: <input id="password" name="password" type="password" placeholder="*********"></p><br>
+                <input type="submit" value="Shrani">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
