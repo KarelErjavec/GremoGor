@@ -59,10 +59,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-     
         print("Form data:", request.form)
-        
-       
         if 'email' not in request.form or 'password' not in request.form:
             return 'Manjkajoči podatki v obrazcu: potrebna sta email in geslo'
             
@@ -100,7 +97,19 @@ def profile():
 @app.route('/set/profile', methods=['GET','POST'])
 def setprof():
     if request.method == 'GET':
-        return render_template('settings/profile.html', ime=session.get('ime'), priimek=session.get('priimek'), email=session.get('email'))
+        return render_template('settings/profile.html', ime=session.get('ime'), priimek=session.get('priimek'), email=session.get('email'), username=session.get('username'))
+    
+    if request.method == 'POST':
+        ime = request.form["ime"]
+        priimek = request.form['priimek']
+        email = request.form['email']
+        username = request.form['username']
+        password = request.form['password']
+
+        if len(ime)>0:
+            db.update({'ime': ime}, User.email == session.get('email'))
+
+
 
     
 
