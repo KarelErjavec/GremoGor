@@ -113,22 +113,25 @@ def setuppost():
         updates = {}
         if ime:
             updates['ime'] = ime
+            session['ime'] = ime
+
         if priimek:
             updates['priimek'] = priimek
+            session['priimek'] = priimek
+
         if email:
             updates['email'] = email
+            session['email'] = email
+
         if username:
             updates['username'] = username
+            session['username'] = username
+
         if password:
             updates['password'] = password  #hashing
 
        
         users.update(updates, User.email == session.get('email'))
-
-        session['ime'] = ime
-        session['priimek'] = priimek
-        session['email'] = email
-        session['username'] = username
     return(redirect(url_for('setprof')))
 
     
