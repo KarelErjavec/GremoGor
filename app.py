@@ -99,19 +99,37 @@ def setprof():
     if request.method == 'GET':
         return render_template('settings/profile.html', ime=session.get('ime'), priimek=session.get('priimek'), email=session.get('email'), username=session.get('username'))
 
-@app.route('/set', methods=['GET','POST'])
+@app.route('/set', methods=['POST'])
 def setuppost():
-    if request.method == 'POST':
-        ime = request.form["ime"]
-        priimek = request.form['priimek']
-        email = request.form['email']
-        username = request.form['username']
-        password = request.form['password']
+    ime = request.form["ime"]
+    priimek = request.form['priimek']
+    email = request.form['email']
+    username = request.form['username']
+    password = request.form['password']
 
-        if len(ime)>0:
-            User.update({'ime': ime}, User.email == session.get('email'))
+    user = users.get(User.email == session.get('email'))
+    
+    if user:
+        updates = {}
+        if ime:
+            updates['ime'] = ime
+        if priimek:
+            updates['priimek'] = priimek
+        if email:
+            updates['email'] = email
+        if username:
+            updates['username'] = username
+        if password:
+            updates['password'] = password  #hashing
 
+       
+        users.update(updates, User.email == session.get('email'))
 
+        session['ime'] = ime
+        session['priimek'] = priimek
+        session['email'] = email
+        session['username'] = username
+    return(redirect(url_for('setprof')))
 
     
 
