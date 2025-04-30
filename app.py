@@ -94,11 +94,13 @@ def logout():
 def profile():
     return render_template('Userpage.html')
 
-@app.route('/set/profile', methods=['GET','POST'])
+@app.route('/set/profile', methods=['GET'])
 def setprof():
     if request.method == 'GET':
         return render_template('settings/profile.html', ime=session.get('ime'), priimek=session.get('priimek'), email=session.get('email'), username=session.get('username'))
-    
+
+@app.route('/set', methods=['GET','POST'])
+def setuppost():
     if request.method == 'POST':
         ime = request.form["ime"]
         priimek = request.form['priimek']
@@ -107,7 +109,7 @@ def setprof():
         password = request.form['password']
 
         if len(ime)>0:
-            db.update({'ime': ime}, User.email == session.get('email'))
+            User.update({'ime': ime}, User.email == session.get('email'))
 
 
 
