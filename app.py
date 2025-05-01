@@ -29,8 +29,7 @@ def register():
         priimek = request.form['priimek']
         email = request.form['email']
         username = request.form['username']
-        password = request.form['password']
-        
+        password = request.form['password']        
         
         if any(user['username'] == username for user in users):
             return 'Uporabniško ime je že v uporabi!'
@@ -109,6 +108,9 @@ def setuppost():
 
     user = users.get(User.email == session.get('email'))
     
+    if any(user['username'] == username for user in users):
+        return 'Uporabniško ime je že v uporabi!'
+
     if user:
         updates = {}
         if ime:
@@ -157,6 +159,7 @@ def gore_data(): #morda potrebna zamenjava
 def check_users():
     all_users = users.all()
     return jsonify(all_users)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
