@@ -164,7 +164,7 @@ def check_users():
 def hash_pass(password):
     password_bytes = password.encode('utf-8')
     salt = bcrypt.gensalt()
-    return (bcrypt.hashpw(password_bytes, salt)).decode()
+    return (bcrypt.hashpw(password_bytes, salt)).decode() #podatkovni tipi
 
 def check_pass(hashed, password):
     password_bytes = password.encode('utf-8')
