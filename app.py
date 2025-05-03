@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import requests
+import bcrypt
 
 #tinydb
 from tinydb import TinyDB, Query
@@ -41,7 +42,7 @@ def register():
             'priimek': priimek,
             'email': email,
             'username': username,
-            'password': password #hash(data) Funkcija  # Nikoli ne shranjuj gesel v plaintextu! (uporabi hashiranje gesel)
+            'password': hash_pass(password) #hash(data) Funkcija  # Nikoli ne shranjuj gesel v plaintextu! (uporabi hashiranje gesel)
         })
 
         session["ime"] = ime
@@ -72,7 +73,7 @@ def login():
        
         user = users.get(User.email == email)
         
-        if user and user['password'] == password:
+        if user and check_pass(user['password'], password):
            
             session['email'] = email
             session['username'] = user['username']
@@ -130,7 +131,7 @@ def setuppost():
             session['username'] = username
 
         if password:
-            updates['password'] = password  #hashing
+            updates['password'] = hash_pass(password)  #hashing
 
        
         users.update(updates, User.email == session.get('email'))
@@ -159,6 +160,15 @@ def gore_data(): #morda potrebna zamenjava
 def check_users():
     all_users = users.all()
     return jsonify(all_users)
+
+def hash_pass(password):
+    password_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    return (bcrypt.hashpw(password_bytes, salt)).decode()
+
+def check_pass(hashed, password):
+    password_bytes = password.encode('utf-8')
+    return bcrypt.checkpw(password_bytes, hashed.encode('utf-8'))
 
 
 if __name__ == '__main__':
