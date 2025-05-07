@@ -184,14 +184,7 @@ def gore_data(): #morda potrebna zamenjava
         "x-rapidapi-host": rapidapi_host
     }
 
-    response = requests.get(url, headers=headers, params=querystring)
 
-    return response.json()
-
-@app.route('/check_users')
-def check_users():
-    all_users = users.all()
-    return jsonify(all_users)
 
 @app.route('/add_friend', methods=['POST'])
 def add_friend():
@@ -295,6 +288,72 @@ def decline_friend():
     )
 
     return jsonify({'success': True, 'message': 'Prošnja za prijateljstvo zavrnjena'})
+
+@app.route('/gora/<mountain_name>', methods=['GET'])
+def gore_data(mountain_name):
+    data = get_mountain_info(mountain_name)
+    print(data)
+    return render_template('gora.html')
+ 
+# Wikidata API (ChatGPT)
+def get_mountain_info(mountain_name):
+    # Step 1: Search for the mountain in Wikidata 
+    search_url = "https://www.wikidata.org/w/api.php"
+    search_params = {
+        'action': 'wbsearchentities',
+        'search': mountain_name,
+        'language': 'si',
+        'format': 'json'
+    }
+ 
+    search_response = requests.get(search_url, params=search_params)
+    search_data = search_response.json()
+ 
+    if not search_data['search']:
+        #print("Mountain not found.")
+        return
+ 
+    # Get the first search result
+    mountain_entity = search_data['search'][0]
+    mountain_id = mountain_entity['id']
+ 
+    # Step 2: Get the mountain's details
+    entity_url = "https://www.wikidata.org/w/api.php"
+    entity_params = {
+        'action': 'wbgetentities',
+        'ids': mountain_id,
+        'props': 'claims',
+        'format': 'json'
+    }
+ 
+    entity_response = requests.get(entity_url, params=entity_params)
+    entity_data = entity_response.json()
+ 
+    # Extract height (P2048) and location (P625)
+    claims = entity_data['entities'][mountain_id]['claims']
+ 
+    height = claims.get('P2048', [])
+    location = claims.get('P625', [])
+ 
+    # Check if height is available and convert to meters
+    if height:
+        height_value = int(height[0]['mainsnak']['datavalue']['value']['amount']) / 1000  # Convert from mm to meters
+    else:
+        height_value = None
+ 
+    # Check if location is available
+    if location:
+        latitude = location[0]['mainsnak']['datavalue']['value']['latitude']
+        longitude = location[0]['mainsnak']['datavalue']['value']['longitude']
+        location_value = (latitude, longitude)
+    else:
+        location_value = None
+ 
+    return {
+        "mount" : mountain_name,
+        "height" : height_value,
+        "location" : location_value
+    }
 
 def hash_pass(password):
     password_bytes = password.encode('utf-8')
