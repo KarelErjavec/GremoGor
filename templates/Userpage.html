@@ -4,20 +4,318 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/User-Profile.css">
-    <title>Profil</title>
+    <title>Profil - {{user}}</title>
 </head>
 <body>
     <div class="register">
-        
         <div class="left">
-           gfdg
-        
+            <div class="profile-container">
+                <div class="profile-picture">
+                    <img src="../static/images/default-profile.jpg" alt="Profile Picture" id="profile-img">
+                </div>
+                <h2 class="username">{{user}}</h2>
+                <div class="user-actions">
+                    <a href="/set/profile" class="profile-button">Uredi profil</a>
+                    <a href="/" class="profile-button">Domov</a>
+                </div>
+            </div>
         </div>
-        
+
         <div class="right">
-            rdtfdsfgfdgd
+            <h2>Moji dosežki</h2>
+            <div class="achievements">
+                <p>Tukaj bodo prikazani vaši dosežki.</p>
+            </div>
+
+            <h2>Prošnje za prijateljstvo</h2>
+            <div class="friend-requests-container">
+                <div id="friend-requests">
+                    <p class="loading">Nalaganje prošenj za prijateljstvo...</p>
+                </div>
+            </div>
+
+            <h2>Prijatelji</h2>
+            <div class="friends-container">
+                <div class="friends-list">
+                    {% if friends %}
+                        {% for friend in friends %}
+                        <div class="friend-item">
+                            <div class="friend-picture">
+                                <img src="../static/images/default-profile.jpg" alt="{{ friend.username }} Profile">
+                            </div>
+                            <p class="friend-name">{{ friend.ime }} {{ friend.priimek }}</p>
+                            <p class="friend-username">@{{ friend.username }}</p>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-friends">Še nimate prijateljev. Dodajte novega prijatelja!</p>
+                    {% endif %}
+                </div>
+                <div class="add-friend">
+                    <button id="add-friend-btn" class="add-friend-button">+ Dodaj prijatelja</button>
+                </div>
+
+
+                <div id="friend-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h3>Dodaj prijatelja</h3>
+                        <div class="search-container">
+                            <input type="text" id="friend-search" placeholder="Vnesite uporabniško ime">
+                            <button id="search-btn">Išči</button>
+                        </div>
+                        <div id="search-results"></div>
+                        <div id="request-status"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-    
     </div>
+
+    <script>
+
+        const modal = document.getElementById('friend-modal');
+
+
+        const btn = document.getElementById('add-friend-btn');
+
+
+        const span = document.getElementsByClassName('close')[0];
+
+
+        const searchBtn = document.getElementById('search-btn');
+        const searchInput = document.getElementById('friend-search');
+        const searchResults = document.getElementById('search-results');
+        const requestStatus = document.getElementById('request-status');
+        const friendRequestsContainer = document.getElementById('friend-requests');
+
+
+        btn.onclick = function() {
+            modal.style.display = 'block';
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+            requestStatus.innerHTML = '';
+        }
+
+
+        span.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+
+        searchBtn.onclick = function() {
+            const username = searchInput.value.trim();
+            if (!username) {
+                searchResults.innerHTML = '<p class="error">Vnesite uporabniško ime za iskanje</p>';
+                return;
+            }
+
+
+            fetch('/check_users')
+                .then(response => response.json())
+                .then(data => {
+                    searchResults.innerHTML = '';
+
+
+                    const filteredUsers = data.filter(user =>
+                        user.username.toLowerCase().includes(username.toLowerCase()) &&
+                        user.username !== '{{user}}'
+                    );
+
+                    if (filteredUsers.length === 0) {
+                        searchResults.innerHTML = '<p class="no-results">Ni najdenih uporabnikov</p>';
+                        return;
+                    }
+
+
+                    filteredUsers.forEach(user => {
+                        const userDiv = document.createElement('div');
+                        userDiv.className = 'user-result';
+                        userDiv.innerHTML = `
+                            <div class="user-info">
+                                <p class="user-name">${user.ime} ${user.priimek}</p>
+                                <p class="user-username">@${user.username}</p>
+                            </div>
+                            <button class="add-btn" data-username="${user.username}">Dodaj</button>
+                        `;
+                        searchResults.appendChild(userDiv);
+                    });
+
+
+                    document.querySelectorAll('.add-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const friendUsername = this.getAttribute('data-username');
+                            sendFriendRequest(friendUsername);
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    searchResults.innerHTML = '<p class="error">Napaka pri iskanju uporabnikov</p>';
+                });
+        }
+
+
+        function sendFriendRequest(friendUsername) {
+            fetch('/add_friend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    friend_username: friendUsername
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                requestStatus.innerHTML = `<p class="${data.success ? 'success' : 'error'}">${data.message}</p>`;
+
+                // If successful, clear search results
+                if (data.success) {
+                    searchResults.innerHTML = '';
+                    searchInput.value = '';
+
+
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                requestStatus.innerHTML = '<p class="error">Napaka pri pošiljanju prošnje za prijateljstvo</p>';
+            });
+        }
+
+
+        searchInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+
+        // Load friend requests
+        function loadFriendRequests() {
+            fetch('/friend_requests')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        friendRequestsContainer.innerHTML = `<p class="error">${data.message}</p>`;
+                        return;
+                    }
+
+                    if (data.requests.length === 0) {
+                        friendRequestsContainer.innerHTML = '<p class="no-requests">Ni novih prošenj za prijateljstvo.</p>';
+                        return;
+                    }
+
+                    friendRequestsContainer.innerHTML = '';
+
+                    data.requests.forEach(request => {
+                        const requestDiv = document.createElement('div');
+                        requestDiv.className = 'request-item';
+                        requestDiv.innerHTML = `
+                            <div class="request-user">
+                                <div class="request-picture">
+                                    <img src="../static/images/default-profile.jpg" alt="${request.username} Profile">
+                                </div>
+                                <div class="request-info">
+                                    <p class="request-name">${request.ime} ${request.priimek}</p>
+                                    <p class="request-username">@${request.username}</p>
+                                </div>
+                            </div>
+                            <div class="request-actions">
+                                <button class="accept-btn" data-username="${request.username}">Sprejmi</button>
+                                <button class="decline-btn" data-username="${request.username}">Zavrni</button>
+                            </div>
+                        `;
+                        friendRequestsContainer.appendChild(requestDiv);
+                    });
+
+                    // Add event listeners to accept/decline buttons
+                    document.querySelectorAll('.accept-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const friendUsername = this.getAttribute('data-username');
+                            acceptFriendRequest(friendUsername);
+                        });
+                    });
+
+                    document.querySelectorAll('.decline-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const friendUsername = this.getAttribute('data-username');
+                            declineFriendRequest(friendUsername);
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    friendRequestsContainer.innerHTML = '<p class="error">Napaka pri nalaganju prošenj za prijateljstvo</p>';
+                });
+        }
+
+        // Accept friend request
+        function acceptFriendRequest(friendUsername) {
+            fetch('/add_friend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    friend_username: friendUsername
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reload the page to show updated friends list
+                    window.location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Napaka pri sprejemanju prošnje za prijateljstvo');
+            });
+        }
+
+        // Decline friend request
+        function declineFriendRequest(friendUsername) {
+            fetch('/decline_friend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    friend_username: friendUsername
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reload the page to update the friend requests list
+                    window.location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Napaka pri zavračanju prošnje za prijateljstvo');
+            });
+        }
+
+        // Load friend requests when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFriendRequests();
+        });
+    </script>
 </body>
 </html>

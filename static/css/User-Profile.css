@@ -11,13 +11,13 @@ body{
     margin: 0 auto;
     padding: 0%;
     background-color: white;
-    
+
     color: white;
 }
 .left{
     background-color: rgb(73, 104, 75);
-    height: 100vh; 
-    width:  50%; 
+    height: 100vh;
+    width:  50%;
     display: flex;
     justify-content: start;
     align-items: flex;
@@ -28,8 +28,368 @@ body{
 
 .right{
     background-color: rgb(180, 188, 147);
-    height: 100vh; 
-    width: 50%; 
+    height: 100vh;
+    width: 50%;
+}
 
-   
+/* Profile Picture Styling */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.profile-picture {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px; /* Square with slightly rounded corners */
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 3px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This ensures the image covers the area without distortion */
+}
+
+.username {
+    color: white;
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* User actions styling */
+.user-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.profile-button {
+    background-color: white;
+    color: rgb(73, 104, 75);
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.profile-button:hover {
+    background-color: rgb(180, 188, 147);
+    color: white;
+}
+
+/* Right side content styling */
+.right {
+    padding: 30px;
+}
+
+.right h2 {
+    color: rgb(73, 104, 75);
+    margin-bottom: 20px;
+}
+
+.achievements {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    color: rgb(73, 104, 75);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* Friend requests styling */
+.friend-requests-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    color: rgb(73, 104, 75);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.request-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.request-user {
+    display: flex;
+    align-items: center;
+}
+
+.request-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.request-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.request-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.request-name {
+    font-weight: bold;
+    margin: 0;
+}
+
+.request-username {
+    color: #666;
+    margin: 0;
+    font-size: 14px;
+}
+
+.request-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.accept-btn, .decline-btn {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.accept-btn {
+    background-color: rgb(73, 104, 75);
+    color: white;
+}
+
+.decline-btn {
+    background-color: #f8f8f8;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.accept-btn:hover {
+    background-color: rgb(180, 188, 147);
+}
+
+.decline-btn:hover {
+    background-color: #f1f1f1;
+}
+
+.no-requests {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.loading {
+    color: #666;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Friends section styling */
+.friends-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    color: rgb(73, 104, 75);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.friends-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.friend-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+}
+
+.friend-picture {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid rgb(73, 104, 75);
+}
+
+.friend-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.friend-name {
+    margin-top: 8px;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.friend-username {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    margin-top: 0;
+}
+
+.no-friends {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.add-friend {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.add-friend-button {
+    background-color: rgb(73, 104, 75);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+
+.add-friend-button:hover {
+    background-color: rgb(180, 188, 147);
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 10px;
+    position: relative;
+    color: rgb(73, 104, 75);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.search-container {
+    display: flex;
+    margin: 20px 0;
+}
+
+#friend-search {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+#search-btn {
+    background-color: rgb(73, 104, 75);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+#search-results {
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.user-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-name {
+    font-weight: bold;
+    margin: 0;
+}
+
+.user-username {
+    color: #666;
+    margin: 0;
+    font-size: 14px;
+}
+
+.add-btn {
+    background-color: rgb(73, 104, 75);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background-color: rgb(180, 188, 147);
+}
+
+#request-status {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.success {
+    color: green;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
 }
