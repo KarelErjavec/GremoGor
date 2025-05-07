@@ -137,6 +137,12 @@ def setuppost():
         users.update(updates, User.email == session.get('email'))
     return(redirect(url_for('setprof')))
 
+@app.route('/gora/<mountain_name>', methods=['GET'])
+def gore_data(mountain_name):
+    data = get_mountain_info(mountain_name)
+    print(data)
+    return render_template('gora.html')
+
 # Wikidata API (ChatGPT)
 def get_mountain_info(mountain_name):
     # Step 1: Search for the mountain in Wikidata
