@@ -145,7 +145,7 @@ def gore_data(mountain_name):
 
 # Wikidata API (ChatGPT)
 def get_mountain_info(mountain_name):
-    # Step 1: Search for the mountain in Wikidata
+    # Step 1: Search for the mountain in Wikidata 
     search_url = "https://www.wikidata.org/w/api.php"
     search_params = {
         'action': 'wbsearchentities',
