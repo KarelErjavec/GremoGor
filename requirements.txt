@@ -1,1 +1,4 @@
-flask, requests, tinydb, bcrypt
+flask
+requests
+tinydb
+bcrypt

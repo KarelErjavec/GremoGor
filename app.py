@@ -7,15 +7,12 @@ import datetime
 from tinydb import TinyDB, Query
 users = TinyDB('data/users.json')
 friends = TinyDB('data/friends.json')
-
-#mountainapi
-rapidapi_key = "6948397d3fmsh016ac5964e79765p1f044djsn300adf413fe5"
-rapidapi_host = "mountain-api1.p.rapidapi.com"
+User = Query()
 
 app = Flask(__name__)
 app.secret_key = "temp"
 
-User = Query()
+
 
 @app.route('/')
 def domov():
@@ -44,7 +41,7 @@ def register():
             'priimek': priimek,
             'email': email,
             'username': username,
-            'password': hash_pass(password) #hash(data) Funkcija  # Nikoli ne shranjuj gesel v plaintextu! (uporabi hashiranje gesel)
+            'password': hash_pass(password)
         })
 
         session["ime"] = ime
@@ -163,26 +160,11 @@ def setuppost():
             session['username'] = username
 
         if password:
-            updates['password'] = hash_pass(password)  #hashing
+            updates['password'] = hash_pass(password)
 
 
         users.update(updates, User.email == session.get('email'))
     return(redirect(url_for('setprof')))
-
-
-
-def gore_data(): #morda potrebna zamenjava
-    global rapidapi_key
-    global rapidapi_host
-
-    url = "https://mountain-api1.p.rapidapi.com/api/mountains"
-
-    querystring = {"name":"Mount Everest"}
-
-    headers = {
-        "x-rapidapi-key": rapidapi_key,
-        "x-rapidapi-host": rapidapi_host
-    }
 
 
 
@@ -273,7 +255,6 @@ def decline_friend():
     user = session['username']
     friend_username = data['friend_username']
 
-    # Check if friend request exists
     Friend = Query()
     existing_request = friends.get(
         (Friend.user == friend_username) & (Friend.friend == user) & (Friend.status == 'pending')
@@ -282,7 +263,6 @@ def decline_friend():
     if not existing_request:
         return jsonify({'success': False, 'message': 'Prošnja za prijateljstvo ne obstaja'})
 
-    # Remove the friend request
     friends.remove(
         (Friend.user == friend_username) & (Friend.friend == user)
     )
@@ -295,9 +275,9 @@ def gore_data(mountain_name):
     print(data)
     return render_template('gora.html')
  
-# Wikidata API (ChatGPT)
+# Wikidata API
 def get_mountain_info(mountain_name):
-    # Step 1: Search for the mountain in Wikidata 
+    # Search 
     search_url = "https://www.wikidata.org/w/api.php"
     search_params = {
         'action': 'wbsearchentities',
@@ -310,14 +290,13 @@ def get_mountain_info(mountain_name):
     search_data = search_response.json()
  
     if not search_data['search']:
-        #print("Mountain not found.")
         return
  
-    # Get the first search result
+    # prvi rezultat
     mountain_entity = search_data['search'][0]
     mountain_id = mountain_entity['id']
  
-    # Step 2: Get the mountain's details
+    # Data request
     entity_url = "https://www.wikidata.org/w/api.php"
     entity_params = {
         'action': 'wbgetentities',
@@ -329,25 +308,32 @@ def get_mountain_info(mountain_name):
     entity_response = requests.get(entity_url, params=entity_params)
     entity_data = entity_response.json()
  
-    # Extract height (P2048) and location (P625)
+    # height (P2048), location (P625)
     claims = entity_data['entities'][mountain_id]['claims']
  
     height = claims.get('P2048', [])
     location = claims.get('P625', [])
+    img = claims.get('P18', [])
  
-    # Check if height is available and convert to meters
+    # mm - m
     if height:
-        height_value = int(height[0]['mainsnak']['datavalue']['value']['amount']) / 1000  # Convert from mm to meters
+        height_value = int(height[0]['mainsnak']['datavalue']['value']['amount']) / 1000
     else:
         height_value = None
  
-    # Check if location is available
+    # lokacija
     if location:
         latitude = location[0]['mainsnak']['datavalue']['value']['latitude']
         longitude = location[0]['mainsnak']['datavalue']['value']['longitude']
         location_value = (latitude, longitude)
     else:
         location_value = None
+
+    # img url
+    if img: 
+        print(img)
+
+    else: img_value = none
  
     return {
         "mount" : mountain_name,
