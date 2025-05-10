@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="left"><h1>{if data["mount"]} {{data["mount"]}} {% else %} - {% endif %}</h1><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"></div>
+        <div class="left"><h1>{if data["mount"]} {{data["mount"]}} {% else %} - {% endif %}</h1><img src= "{{data["img"]}}" ></div>
         <div class="right"><h1>Podatki: </h1><br>višina: {if data["height"]} {{data["height"]}} {% else %} - {% endif %}<br>Kordinate: {if data["location"]} {{location}} {% else %} - {% endif %}<br>Težavnost: TEŽAVNOST<br>Predviden čas hoje: ČAS</div>
     </div>
 </body>
