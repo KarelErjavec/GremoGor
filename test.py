@@ -55,15 +55,15 @@ def get_mountain_info(mountain_name):
 
     # img url
     if img: 
-        print(f"https://commons.wikimedia.org/wiki/Special:FilePath/{img[0]['mainsnak']['datavalue']['value']}")
+        img_value=requests.get(f"https://commons.wikimedia.org/wiki/Special:FilePath/{img[0]['mainsnak']['datavalue']['value']}").url
 
     else: img_value = none
  
-    print({
+    return {
         "mount" : mountain_name,
         "height" : height_value,
-        "location" : location_value
+        "location" : location_value,
+        "img" : img_value
+    }
 
-    })
-
-get_mountain_info('Triglav')
+print(get_mountain_info('Mount_Everest'))

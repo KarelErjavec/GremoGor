@@ -331,14 +331,15 @@ def get_mountain_info(mountain_name):
 
     # img url
     if img: 
-        print(img)
+        img_value=requests.get(f"https://commons.wikimedia.org/wiki/Special:FilePath/{img[0]['mainsnak']['datavalue']['value']}").url
 
     else: img_value = none
  
     return {
         "mount" : mountain_name,
         "height" : height_value,
-        "location" : location_value
+        "location" : location_value,
+        "img" : img_value
     }
 
 def hash_pass(password):
