@@ -8,8 +8,8 @@
 </head>
 <body>
     <div class="container">
-        <div class="left"><h1>{if data["mount"]} {{data["mount"]}} {% else %} - {% endif %}</h1><img src= "{{data["img"]}}" ></div>
-        <div class="right"><h1>Podatki: </h1><br>višina: {if data["height"]} {{data["height"]}} {% else %} - {% endif %}<br>Kordinate: {if data["location"]} {{location}} {% else %} - {% endif %}<br>Težavnost: TEŽAVNOST<br>Predviden čas hoje: ČAS</div>
+        <div class="left"><h1>{%if data["mount"]%} {{data["mount"]}} {% else %} - {% endif %}</h1><img src= "{{data["img"]}}" ></div>
+        <div class="right"><h1>Podatki: </h1><br>Višina: {%if data["height"]%} {{data["height"]}} {% else %} - {% endif %}<br>Kordinate: {%if data["location"]%} {{data["location"][0]}}, {{data["location"][1]}} {% else %} - {% endif %}<br>Težavnost: TEŽAVNOST<br>Predviden čas hoje: ČAS</div>
     </div>
 </body>
 </html>

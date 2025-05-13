@@ -273,7 +273,7 @@ def decline_friend():
 def gore_data(mountain_name):
     data = get_mountain_info(mountain_name)
     print(data)
-    return render_template('gora.html')
+    return render_template('gora.html', data=data)
  
 # Wikidata API
 def get_mountain_info(mountain_name):
@@ -301,7 +301,7 @@ def get_mountain_info(mountain_name):
     entity_params = {
         'action': 'wbgetentities',
         'ids': mountain_id,
-        'props': 'claims',
+        'props': 'claims|labels',
         'format': 'json'
     }
  
@@ -310,6 +310,7 @@ def get_mountain_info(mountain_name):
  
     # height (P2048), location (P625)
     claims = entity_data['entities'][mountain_id]['claims']
+    labels = entity_data['entities'][mountain_id]['labels']
  
     height = claims.get('P2048', [])
     location = claims.get('P625', [])
@@ -320,6 +321,8 @@ def get_mountain_info(mountain_name):
         height_value = int(height[0]['mainsnak']['datavalue']['value']['amount']) / 1000
     else:
         height_value = None
+    #lokacija
+    mountain_label = labels.get('en', {}).get('value', mountain_name)
  
     # lokacija
     if location:
@@ -336,7 +339,7 @@ def get_mountain_info(mountain_name):
     else: img_value = none
  
     return {
-        "mount" : mountain_name,
+        "mount" : mountain_label,
         "height" : height_value,
         "location" : location_value,
         "img" : img_value
