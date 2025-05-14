@@ -129,10 +129,19 @@ def profile():
 
     return render_template('Userpage.html', user=username, friends=friend_details)
 
-@app.route('/set/profile', methods=['GET'])
+@app.route('/set/profile/', methods=['GET'])
 def setprof():
-    if request.method == 'GET':
-        return render_template('settings/profile.html', ime=session.get('ime'), priimek=session.get('priimek'), email=session.get('email'), username=session.get('username'))
+    return render_template('settings/profile.html', ime=session.get('ime'), priimek=session.get('priimek'), email=session.get('email'), username=session.get('username'))
+
+@app.route('/set/del/', methods=['GET'])
+def delprof():
+    return render_template('settings/delete.html')
+
+@app.route('/set/del/yes/')
+def delete():
+    users.remove(User.username==session.get('username'))
+    session.clear()
+    return 'Račun Izbrisan.'
 
 @app.route('/set', methods=['POST'])
 def setuppost():

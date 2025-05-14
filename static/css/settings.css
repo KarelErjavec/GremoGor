@@ -73,4 +73,16 @@ a:hover {
 .active {
     color: black;
 }
- 
+
+h1 {
+    color: red;
+}
+
+button.important {
+    background-color: red;
+}
+
+button.important:hover {
+    background-color: darkred;
+    color: white;
+}
