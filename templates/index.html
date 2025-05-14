@@ -8,18 +8,13 @@
 </head>
 <body>
     <div class="header">
-        <label>GremoGor</label>
+        <img src="static/logo.png" class="logo">
         <ol>
             <li><a href="#">search</a></li>
             <li><a href="#">chat</a></li>
-            <li><a href="#">Država:</a></li>
-            <label for="cars">Choose a car:</label>
-                <select name="cars" id="cars">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
-                </select> 
+            <li><a href="#" id="countryLink">Država:</a></li>
+            
+            
             {% if user == "none" %}
                 <li><a href="/register">Register</a></li>
                 <li><a href="/login">Login</a></li>
@@ -29,6 +24,37 @@
             {% endif %}
         </ol>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        });
+        
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+        
+            
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+                .then(response => response.json())
+                .then(data => {
+                    const country = data.address.country;
+                    const countryLink = document.getElementById('countryLink');
+                    countryLink.textContent = `Država: ${country}`;
+                    countryLink.href = `#${country}`;
+                })
+                .catch(error => {
+                    console.error("Error fetching country data:", error);
+                });
+        }
+        
+        function showError(error) {
+            console.error("Error getting location:", error);
+        }
+        </script>
     <div class="selector">
         <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime Gore*</a></div>
         <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Triglav_-_winter.jpg/270px-Triglav_-_winter.jpg"><br>*Ime Gore*</a></div>

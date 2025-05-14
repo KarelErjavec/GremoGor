@@ -8,9 +8,17 @@
     display: flex;
     justify-content: end;
     align-items: center;
-    background: lightgray;
+    background: rgb(180, 188, 147);
 }
-
+body{
+    background-color: rgb(73, 104, 75);
+}
+.logo{
+    float: left;
+    
+    margin-right: 50%;
+    height: 50px;
+}
 .header a {
     text-decoration: none;
     color: gray;
@@ -64,4 +72,22 @@ div {
     text-align: center;
     font-size: large;
     padding: 5px;
+}
+
+/* Iskanje Držav*/
+.dropdown {
+    width: 300px;
+    margin: 20px;
+}
+
+#countrySearch {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#countryDropdown {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
 }
