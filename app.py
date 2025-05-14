@@ -21,6 +21,12 @@ def domov():
         user="none"
     return render_template('index.html', user=user)
 
+@app.route("/search", methods=['POST'])
+def search():
+    ime=request.form["search"]
+    return redirect(f'/gora/{ime}')
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':

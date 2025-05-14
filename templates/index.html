@@ -10,7 +10,11 @@
     <div class="header">
         <img src="static/logo.png" class="logo">
         <ol>
-            <li><a href="#">search</a></li>
+            <li> <form method="POST" action="/search">
+                <input type="text" id="search" name="search"><br><br>
+                <input type="submit" value="Išči">
+              </form> 
+            </li>
             <li><a href="#">chat</a></li>
             <li><a href="#" id="countryLink">Država:</a></li>
             
