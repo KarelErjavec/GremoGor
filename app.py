@@ -360,6 +360,12 @@ def check_pass(hashed, password):
     password_bytes = password.encode('utf-8')
     return bcrypt.checkpw(password_bytes, hashed.encode('utf-8'))
 
+@app.route('/check_users')
+
+def check_users():
+    all_users = users.all()
+    return jsonify(all_users)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
