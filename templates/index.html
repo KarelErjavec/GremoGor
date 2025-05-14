@@ -12,9 +12,14 @@
         <ol>
             <li><a href="#">search</a></li>
             <li><a href="#">chat</a></li>
-            <li><a href="#">Regije</a></li>
-            <li><a href="#">Celine</a></li>
-            <li><a href="#">Države</a></li>
+            <li><a href="#">Država:</a></li>
+            <label for="cars">Choose a car:</label>
+                <select name="cars" id="cars">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="mercedes">Mercedes</option>
+                    <option value="audi">Audi</option>
+                </select> 
             {% if user == "none" %}
                 <li><a href="/register">Register</a></li>
                 <li><a href="/login">Login</a></li>
