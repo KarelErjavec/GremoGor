@@ -48,3 +48,16 @@ GremoGor (Socialno omrežje pohodnikov v gore) bi bila platforma, kjer uporabnik
 
 ## Zaključek
 Razvoj socialnega omrežja za pohodnike v gore predstavlja priložnost za ustvarjanje specializirane platforme, ki bi izpolnila vrzel med obstoječimi aplikacijami, ki so večinoma osredotočene na navigacijo, in potrebami uporabnikov, ki želijo več socialne interakcije, skupnostnega duha ter dostop do zaupanja vrednih informacij o pohodništvu.
+
+## SWOT analiza
+
+| **Moči (Strengths)**     | **Slabosti (Weaknesses)** |
+|--------------------------|---------------------------|
+| Specializacija za potrebe pohodnikov      | Začetna uporabniška baza     |
+| Spodbujanje interakcije in skupnosti      | Finančna sredstva za razvoj in trženje       |
+| Deljenje izkušenj in dosežkov              | Tehnološke ovire pri razvoju in vzdrževanju   |
+| Personalizacija iskanja poti               |                           |
+| **Priložnosti (Opportunities)** | **Grožnje (Threats)**   |
+| Rastoči trend pohodništva po pandemiji      | Močna konkurenca obstoječih aplikacij   |
+| Sodelovanje z blagovnimi znamkami            | Spremembe v trendih in zanimanju za pohodništvo            |
+| Globalni trg z večjezično podporo            | Hitre tehnološke spremembe in spremembe uporabniških preferenc  |
