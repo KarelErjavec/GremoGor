@@ -1,69 +1,33 @@
 import requests
-#začasna datoteka
-def get_mountain_info(mountain_name):
-    # Search 
-    search_url = "https://www.wikidata.org/w/api.php"
-    search_params = {
-        'action': 'wbsearchentities',
-        'search': mountain_name,
-        'language': 'si',
-        'format': 'json'
+
+def get_highest_mountains(country_id):
+    # SPARQL query to get the highest mountains in a specific country
+    query = f"""
+    SELECT ?mountain ?mountainLabel ?height WHERE {{
+      ?mountain wdt:P31 wd:Q8502;  # instance of mountain
+                wdt:P2044 ?height;  # height in meters
+                wdt:P17 wd:{country_id}.  # located in the country
+      SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}
+    }}
+    ORDER BY DESC(?height)
+    LIMIT 10
+    """
+
+    url = "https://query.wikidata.org/sparql"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
     }
- 
-    search_response = requests.get(search_url, params=search_params)
-    search_data = search_response.json()
- 
-    if not search_data['search']:
-        return
- 
-    # prvi rezultat
-    mountain_entity = search_data['search'][0]
-    mountain_id = mountain_entity['id']
- 
-    # Data request
-    entity_url = "https://www.wikidata.org/w/api.php"
-    entity_params = {
-        'action': 'wbgetentities',
-        'ids': mountain_id,
-        'props': 'claims',
-        'format': 'json'
-    }
- 
-    entity_response = requests.get(entity_url, params=entity_params)
-    entity_data = entity_response.json()
- 
-    # height (P2048), location (P625)
-    claims = entity_data['entities'][mountain_id]['claims']
- 
-    height = claims.get('P2048', [])
-    location = claims.get('P625', [])
-    img = claims.get('P18', [])
- 
-    # mm - m
-    if height:
-        height_value = int(height[0]['mainsnak']['datavalue']['value']['amount']) / 1000
+    response = requests.get(url, params={'query': query, 'format': 'json'}, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        mountains = []
+        for item in data['results']['bindings']:
+            mountains.append(item['mountainLabel']['value'])
+        return mountains
     else:
-        height_value = None
- 
-    # lokacija
-    if location:
-        latitude = location[0]['mainsnak']['datavalue']['value']['latitude']
-        longitude = location[0]['mainsnak']['datavalue']['value']['longitude']
-        location_value = (latitude, longitude)
-    else:
-        location_value = None
+        print("Error:", response.status_code)
+        return None
 
-    # img url
-    if img: 
-        img_value=requests.get(f"https://commons.wikimedia.org/wiki/Special:FilePath/{img[0]['mainsnak']['datavalue']['value']}").url
-
-    else: img_value = none
- 
-    return {
-        "mount" : mountain_name,
-        "height" : height_value,
-        "location" : location_value,
-        "img" : img_value
-    }
-
-print(get_mountain_info('Mount_Everest'))
+# countryid
+print(get_highest_mountains("Q215"))
