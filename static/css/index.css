@@ -59,6 +59,11 @@ div {
     margin-bottom: 1px;
 }
 
+.selector img {
+    width: 20em;
+    height: auto;
+}
+
 .selector a {
     text-decoration: none;
     color: white;

@@ -12,8 +12,6 @@ User = Query()
 app = Flask(__name__)
 app.secret_key = "temp"
 
-
-
 @app.route('/')
 def domov():
     user=session.get('username')
@@ -25,7 +23,6 @@ def domov():
 def search():
     ime=request.form["search"]
     return redirect(f'/gora/{ime}')
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -56,11 +53,9 @@ def register():
         session["username"] = username
         #session["password"] = password
 
-
         return redirect(url_for('domov'))
-
-
     return render_template('register.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -71,10 +66,8 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-
         if not email or not password:
             return 'Email in geslo sta obvezna'
-
 
         user = users.get(User.email == email)
 
@@ -103,10 +96,8 @@ def profile():
     if not username:
         return redirect(url_for('login'))
 
-
     Friend = Query()
     user_friends = friends.search((Friend.user == username) | (Friend.friend == username))
-
 
     friend_list = []
     for friendship in user_friends:
@@ -115,7 +106,6 @@ def profile():
                 friend_list.append(friendship['friend'])
             else:
                 friend_list.append(friendship['user'])
-
 
     friend_details = []
     for friend_username in friend_list:
@@ -177,11 +167,8 @@ def setuppost():
         if password:
             updates['password'] = hash_pass(password)
 
-
         users.update(updates, User.email == session.get('email'))
     return(redirect(url_for('setprof')))
-
-
 
 @app.route('/add_friend', methods=['POST'])
 def add_friend():
@@ -195,14 +182,11 @@ def add_friend():
     user = session['username']
     friend_username = data['friend_username']
 
-
     if not users.get(User.username == friend_username):
         return jsonify({'success': False, 'message': 'Uporabnik ne obstaja'})
 
-
     if user == friend_username:
         return jsonify({'success': False, 'message': 'Ne morete dodati sebe kot prijatelja'})
-
 
     Friend = Query()
     existing_friendship = friends.get(
@@ -222,7 +206,6 @@ def add_friend():
                               ((Friend.user == friend_username) & (Friend.friend == user)))
                 return jsonify({'success': True, 'message': 'Prijateljstvo sprejeto'})
 
-
     friends.insert({
         'user': user,
         'friend': friend_username,
@@ -240,11 +223,9 @@ def friend_requests():
     user = session['username']
     Friend = Query()
 
-
     pending_requests = friends.search(
         (Friend.friend == user) & (Friend.status == 'pending')
     )
-
 
     request_details = []
     for request in pending_requests:
@@ -287,12 +268,12 @@ def decline_friend():
 @app.route('/gora/<mountain_name>', methods=['GET'])
 def gore_data(mountain_name):
     data = get_mountain_info(mountain_name)
-    print(data)
+    #print(data)
     return render_template('gora.html', data=data)
  
 # Wikidata API
 def get_mountain_info(mountain_name):
-    # Search 
+    # iskanje 
     search_url = "https://www.wikidata.org/w/api.php"
     search_params = {
         'action': 'wbsearchentities',
@@ -311,7 +292,7 @@ def get_mountain_info(mountain_name):
     mountain_entity = search_data['search'][0]
     mountain_id = mountain_entity['id']
  
-    # Data request
+    # pridobitev podatkov
     entity_url = "https://www.wikidata.org/w/api.php"
     entity_params = {
         'action': 'wbgetentities',
@@ -323,17 +304,17 @@ def get_mountain_info(mountain_name):
     entity_response = requests.get(entity_url, params=entity_params)
     entity_data = entity_response.json()
  
-    # height (P2048), location (P625)
+    # višina (P2048), lokacija (P625)
     claims = entity_data['entities'][mountain_id]['claims']
     labels = entity_data['entities'][mountain_id]['labels']
  
-    height = claims.get('P2048', [])
+    height = claims.get('P2044', [])
     location = claims.get('P625', [])
     img = claims.get('P18', [])
  
     # mm - m
     if height:
-        height_value = int(height[0]['mainsnak']['datavalue']['value']['amount']) / 1000
+        height_value = int(round(float(height[0]['mainsnak']['datavalue']['value']['amount']), 0))
     else:
         height_value = None
     #lokacija
@@ -347,11 +328,11 @@ def get_mountain_info(mountain_name):
     else:
         location_value = None
 
-    # img url
+    # url slike
     if img: 
         img_value=requests.get(f"https://commons.wikimedia.org/wiki/Special:FilePath/{img[0]['mainsnak']['datavalue']['value']}").url
 
-    else: img_value = none
+    else: img_value = None
  
     return {
         "mount" : mountain_label,
@@ -373,8 +354,6 @@ def check_pass(hashed, password):
 def check_users():
     all_users = users.all()
     return jsonify(all_users)
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
