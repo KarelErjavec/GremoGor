@@ -270,9 +270,20 @@ def gore_data(mountain_name):
     data = get_mountain_info(mountain_name)
     #print(data)
     return render_template('gora.html', data=data)
- 
+
+mountain_array = [
+    "Triglav", "Škrlatica", "Mangart", "Jalovec", "Krn", 
+    "Tosc", "Razor", "Prisojnik", "Vrh nad Vršičem", 
+    "Grintovec", "Rjavina", "Veliki Draški vrh", 
+    "Spodnje Sleme", "Stador","Hochstuhl","škrlatica"
+]
+
+
 # Wikidata API
 def get_mountain_info(mountain_name):
+    if mountain_name not in mountain_array:
+        return redirect(url_for('domov'))
+    
     # iskanje 
     search_url = "https://www.wikidata.org/w/api.php"
     search_params = {
@@ -281,10 +292,10 @@ def get_mountain_info(mountain_name):
         'language': 'si',
         'format': 'json'
     }
- 
     search_response = requests.get(search_url, params=search_params)
     search_data = search_response.json()
- 
+
+    
     if not search_data['search']:
         return
  

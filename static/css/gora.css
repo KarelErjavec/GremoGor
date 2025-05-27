@@ -2,12 +2,12 @@ body{
     height: fit-content;
     margin: 0 auto;
     padding: 0%;
-    background-color: white;
+    background-color: rgb(180, 188, 147);
 }
 /*razdelitev*/
 .container {
     display: flex;
-    background-color: gray
+    background-color: rgb(73, 104, 75);
   }
   
   .left, .right {
