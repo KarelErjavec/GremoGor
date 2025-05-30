@@ -1,14 +1,14 @@
 import requests
 
 def get_geographical_info(name):
-    # Search for the geographical entity
+    # klic
     search_url = "https://www.wikidata.org/w/api.php"
     search_params = {
         'action': 'wbsearchentities',
         'search': name,
-        'language': 'en',  # Use English language for broader search results
+        'language': 'si',  # Slovenščina
         'format': 'json',
-        'type': 'item'  # Ensure we are searching for items
+        'type': 'item' 
     }
 
     search_response = requests.get(search_url, params=search_params)
@@ -17,12 +17,11 @@ def get_geographical_info(name):
     if not search_data.get('search'):
         return None
 
-    # Iterate through the search results to find a match
     for entity in search_data['search']:
         entity_id = entity['id']
         entity_label = entity['label']
 
-        # Get the claims for the entity to check its type
+        # pridobi tip
         entity_url = "https://www.wikidata.org/w/api.php"
         entity_params = {
             'action': 'wbgetentities',
@@ -36,7 +35,7 @@ def get_geographical_info(name):
 
         claims = entity_data['entities'][entity_id].get('claims', {})
 
-        # Check if the entity is an instance of a mountain (Q8502), hill (Q39671), or village (Q532)
+        # gora (Q8502), hrib (Q39671), vas (Q532)
         instance_of = claims.get('P31', [])
         is_mountain = any(
             claim['mainsnak']['datavalue']['value']['id'] == 'Q8502'
@@ -52,7 +51,6 @@ def get_geographical_info(name):
         )
 
         if is_mountain or is_hill or is_village:
-            # Extract height (P2044), location (P625), and image (P18)
             height = claims.get('P2044', [])
             location = claims.get('P625', [])
             img = claims.get('P18', [])
@@ -73,15 +71,6 @@ def get_geographical_info(name):
                 img_value = requests.get(f"https://commons.wikimedia.org/wiki/Special:FilePath/{img[0]['mainsnak']['datavalue']['value']}").url
             else:
                 img_value = None
-
-            # Determine the type of the entity
-            if is_mountain:
-                entity_type = 'mountain'
-            elif is_hill:
-                entity_type = 'hill'
-            else:
-                entity_type = 'village'
-
             return {
                 "name": entity_label,
                 "type": entity_type,

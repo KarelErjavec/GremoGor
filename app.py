@@ -280,77 +280,85 @@ mountain_array = [
 
 
 # Wikidata API
-def get_mountain_info(mountain_name):
-    if mountain_name not in mountain_array:
-        return redirect(url_for('domov'))
-    
-    # iskanje 
+def get_mountain_info(name):
+    # klic
     search_url = "https://www.wikidata.org/w/api.php"
     search_params = {
         'action': 'wbsearchentities',
-        'search': mountain_name,
-        'language': 'si',
-        'format': 'json'
+        'search': name,
+        'language': 'si',  # Slovenščina
+        'format': 'json',
+        'type': 'item' 
     }
+
     search_response = requests.get(search_url, params=search_params)
     search_data = search_response.json()
 
-    
-    if not search_data['search']:
-        return
- 
-    # prvi rezultat
-    mountain_entity = search_data['search'][0]
-    mountain_id = mountain_entity['id']
- 
-    # pridobitev podatkov
-    entity_url = "https://www.wikidata.org/w/api.php"
-    entity_params = {
-        'action': 'wbgetentities',
-        'ids': mountain_id,
-        'props': 'claims|labels',
-        'format': 'json'
-    }
- 
-    entity_response = requests.get(entity_url, params=entity_params)
-    entity_data = entity_response.json()
- 
-    # višina (P2048), lokacija (P625)
-    claims = entity_data['entities'][mountain_id]['claims']
-    labels = entity_data['entities'][mountain_id]['labels']
- 
-    height = claims.get('P2044', [])
-    location = claims.get('P625', [])
-    img = claims.get('P18', [])
- 
-    # mm - m
-    if height:
-        height_value = int(round(float(height[0]['mainsnak']['datavalue']['value']['amount']), 0))
-    else:
-        height_value = None
-    #lokacija
-    mountain_label = labels.get('en', {}).get('value', mountain_name)
- 
-    # lokacija
-    if location:
-        latitude = location[0]['mainsnak']['datavalue']['value']['latitude']
-        longitude = location[0]['mainsnak']['datavalue']['value']['longitude']
-        location_value = (latitude, longitude)
-    else:
-        location_value = None
+    if not search_data.get('search'):
+        return None
 
-    # url slike
-    if img: 
-        img_value=requests.get(f"https://commons.wikimedia.org/wiki/Special:FilePath/{img[0]['mainsnak']['datavalue']['value']}").url
+    for entity in search_data['search']:
+        entity_id = entity['id']
+        entity_label = entity['label']
 
-    else: img_value = None
- 
-    return {
-        "mount" : mountain_label,
-        "height" : height_value,
-        "location" : location_value,
-        "img" : img_value
-    }
+        # pridobi tip
+        entity_url = "https://www.wikidata.org/w/api.php"
+        entity_params = {
+            'action': 'wbgetentities',
+            'ids': entity_id,
+            'props': 'claims|labels',
+            'format': 'json'
+        }
+
+        entity_response = requests.get(entity_url, params=entity_params)
+        entity_data = entity_response.json()
+
+        claims = entity_data['entities'][entity_id].get('claims', {})
+
+        # gora (Q8502), hrib (Q39671), vas (Q532)
+        instance_of = claims.get('P31', [])
+        is_mountain = any(
+            claim['mainsnak']['datavalue']['value']['id'] == 'Q8502'
+            for claim in instance_of
+        )
+        is_hill = any(
+            claim['mainsnak']['datavalue']['value']['id'] == 'Q39671'
+            for claim in instance_of
+        )
+        is_village = any(
+            claim['mainsnak']['datavalue']['value']['id'] == 'Q532'
+            for claim in instance_of
+        )
+
+        if is_mountain or is_hill or is_village:
+            height = claims.get('P2044', [])
+            location = claims.get('P625', [])
+            img = claims.get('P18', [])
+
+            if height:
+                height_value = int(round(float(height[0]['mainsnak']['datavalue']['value']['amount']), 0))
+            else:
+                height_value = None
+
+            if location:
+                latitude = location[0]['mainsnak']['datavalue']['value']['latitude']
+                longitude = location[0]['mainsnak']['datavalue']['value']['longitude']
+                location_value = (latitude, longitude)
+            else:
+                location_value = None
+
+            if img:
+                img_value = requests.get(f"https://commons.wikimedia.org/wiki/Special:FilePath/{img[0]['mainsnak']['datavalue']['value']}").url
+            else:
+                img_value = None
+            return {
+                "name": entity_label,
+                "height": height_value,
+                "location": location_value,
+                "img": img_value
+            }
+
+    return None
 
 def hash_pass(password):
     password_bytes = password.encode('utf-8')

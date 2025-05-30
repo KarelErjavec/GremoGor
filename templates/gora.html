@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{data["mount"]}} - GremoGor</title>
+    <title>{{data["name"]}} - GremoGor</title>
     <link rel="stylesheet" href="../static/css/gora.css">
 </head>
 <body>
     <div class="container">
-        <div class="left"><h1>{%if data["mount"]%} {{data["mount"]}} {% else %} - {% endif %}</h1><img src= "{{data["img"]}}" ></div>
+        <div class="left"><h1>{{data["name"]}}</h1><img src= "{{data["img"]}}" ></div>
         <div class="right"><h1>Podatki: </h1><br>Višina: {%if data["height"]%} {{data["height"]}} m {% else %} - {% endif %}<br>Kordinate: {%if data["location"]%} {{data["location"][0]}}, {{data["location"][1]}} {% else %} - {% endif %}<br>Težavnost: TEŽAVNOST<br>Predviden čas hoje: ČAS</div>
     </div>
 </body>
