@@ -1,0 +1,100 @@
+import requests
+
+def get_geographical_info(name):
+    # Search for the geographical entity
+    search_url = "https://www.wikidata.org/w/api.php"
+    search_params = {
+        'action': 'wbsearchentities',
+        'search': name,
+        'language': 'en',  # Use English language for broader search results
+        'format': 'json',
+        'type': 'item'  # Ensure we are searching for items
+    }
+
+    search_response = requests.get(search_url, params=search_params)
+    search_data = search_response.json()
+
+    if not search_data.get('search'):
+        return None
+
+    # Iterate through the search results to find a match
+    for entity in search_data['search']:
+        entity_id = entity['id']
+        entity_label = entity['label']
+
+        # Get the claims for the entity to check its type
+        entity_url = "https://www.wikidata.org/w/api.php"
+        entity_params = {
+            'action': 'wbgetentities',
+            'ids': entity_id,
+            'props': 'claims|labels',
+            'format': 'json'
+        }
+
+        entity_response = requests.get(entity_url, params=entity_params)
+        entity_data = entity_response.json()
+
+        claims = entity_data['entities'][entity_id].get('claims', {})
+
+        # Check if the entity is an instance of a mountain (Q8502), hill (Q39671), or village (Q532)
+        instance_of = claims.get('P31', [])
+        is_mountain = any(
+            claim['mainsnak']['datavalue']['value']['id'] == 'Q8502'
+            for claim in instance_of
+        )
+        is_hill = any(
+            claim['mainsnak']['datavalue']['value']['id'] == 'Q39671'
+            for claim in instance_of
+        )
+        is_village = any(
+            claim['mainsnak']['datavalue']['value']['id'] == 'Q532'
+            for claim in instance_of
+        )
+
+        if is_mountain or is_hill or is_village:
+            # Extract height (P2044), location (P625), and image (P18)
+            height = claims.get('P2044', [])
+            location = claims.get('P625', [])
+            img = claims.get('P18', [])
+
+            if height:
+                height_value = int(round(float(height[0]['mainsnak']['datavalue']['value']['amount']), 0))
+            else:
+                height_value = None
+
+            if location:
+                latitude = location[0]['mainsnak']['datavalue']['value']['latitude']
+                longitude = location[0]['mainsnak']['datavalue']['value']['longitude']
+                location_value = (latitude, longitude)
+            else:
+                location_value = None
+
+            if img:
+                img_value = requests.get(f"https://commons.wikimedia.org/wiki/Special:FilePath/{img[0]['mainsnak']['datavalue']['value']}").url
+            else:
+                img_value = None
+
+            # Determine the type of the entity
+            if is_mountain:
+                entity_type = 'mountain'
+            elif is_hill:
+                entity_type = 'hill'
+            else:
+                entity_type = 'village'
+
+            return {
+                "name": entity_label,
+                "type": entity_type,
+                "height": height_value,
+                "location": location_value,
+                "img": img_value
+            }
+
+    return None
+
+# Example usage
+geographical_info = get_geographical_info("Šmarna Gora")
+print(geographical_info)
+
+geographical_info = get_geographical_info("Krn")
+print(geographical_info)
